@@ -3,200 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GS BIKERS CLUB | Wholesale Helmets & Spares - Allagadda</title>
+    <title>GS Traders | Wholesale Helmets & Spares - Allagadda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- jsPDF & AutoTable for Order Receipt PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    
+    <!-- PapaParse for Google Sheets Live CSV Fetching -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .pro-card { transition: all 0.3s ease; }
-        .pro-card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px -10px rgba(245, 158, 11, 0.2); }
-        #cartDrawer { transition: transform 0.3s ease-in-out; }
+        .glass-header {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .pro-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .pro-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -10px rgba(245, 158, 11, 0.15);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
 
-    <!-- Top Utility Bar -->
-    <div class="bg-amber-500 text-slate-950 text-[11px] font-extrabold py-1.5 px-3 text-center tracking-wide shadow-sm flex items-center justify-center gap-2">
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-slate-950 text-[11px] font-extrabold py-2 px-4 text-center tracking-wide shadow-md flex items-center justify-center gap-2">
         <span class="flex h-2 w-2 relative">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
         </span>
-        <span class="uppercase">Dassara Dealer Bookings Open! | దసరా ఆర్డర్లు ప్రారంభమైనవి!</span>
+        <span class="uppercase tracking-wider">GS Traders Wholesale Portal | Dassara Dealer Bookings Open!</span>
     </div>
 
-    <!-- Compact Navigation Header with Cart Button -->
-    <header class="bg-slate-900/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-2.5">
-                <div class="bg-amber-500 text-slate-950 p-2 rounded-xl font-black text-lg shadow-md shadow-amber-500/20">
-                    <i class="fa-solid fa-motorcycle"></i>
+    <!-- Navigation Header -->
+    <header class="glass-header sticky top-0 z-40 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 p-2.5 rounded-2xl font-black text-xl shadow-lg shadow-amber-500/20">
+                    <i class="fa-solid fa-boxes-packing"></i>
                 </div>
                 <div>
-                    <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white flex items-center gap-1.5">
-                        GS BIKERS CLUB <span class="bg-amber-500/10 text-amber-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-amber-500/20">B2B</span>
+                    <h1 class="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-2">
+                        GS TRADERS 
+                        <span class="bg-amber-500/10 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-500/30 tracking-wider">B2B HUB</span>
                     </h1>
-                    <p class="text-[10px] text-slate-400 font-medium">Allagadda Wholesale Hub</p>
+                    <p class="text-[11px] text-slate-400 font-medium">Allagadda Wholesale Supplier</p>
                 </div>
             </div>
             
             <div class="flex items-center space-x-3">
-                <a href="tel:7659928108" class="hidden sm:flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-3 py-2 rounded-xl text-xs transition-all border border-slate-700">
-                    <i class="fa-solid fa-phone-volume text-amber-500 text-xs"></i>
+                <a href="tel:7659928108" class="hidden sm:flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs transition-all border border-slate-800 shadow-sm">
+                    <i class="fa-solid fa-headset text-amber-500 text-sm"></i>
                     <span>76599 28108</span>
                 </a>
                 
-                <!-- Cart Toggle Button -->
-                <button onclick="toggleCart()" class="relative bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs transition-all shadow flex items-center gap-2 cursor-pointer">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="hidden sm:inline">Cart</span>
-                    <span id="cartBadge" class="absolute -top-1.5 -right-1.5 bg-rose-600 text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-md hidden">0</span>
+                <button onclick="toggleCart()" class="relative bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold px-4 py-2.5 rounded-xl text-xs transition-all shadow-lg shadow-amber-500/10 flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-bag-shopping text-sm"></i>
+                    <span class="hidden sm:inline">Order Cart</span>
+                    <span id="cartBadge" class="bg-slate-950 text-amber-400 text-[10px] font-black px-1.5 py-0.5 rounded-full min-w-[20px] text-center hidden">0</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Ultra-Compact Hero & Notice Section -->
-    <section class="bg-gradient-to-b from-slate-900 to-slate-950 py-6 px-4 border-b border-slate-800">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <div class="inline-flex items-center gap-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider mb-2">
-                        <i class="fa-solid fa-shield-halved"></i> Authorized Wholesale Supplier
-                    </div>
-                    <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-                        Helmets, Spares & Accessories Direct Rates
-                    </h2>
+    <!-- Hero / Brand Section -->
+    <section class="relative bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800/80 py-8 px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+                <div class="inline-flex items-center gap-2 bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-award"></i> Premier B2B Distributor
                 </div>
-                <!-- Compact Dealer Notice Box -->
-                <div class="bg-slate-900/90 border border-amber-500/30 p-3 rounded-xl text-xs text-slate-300 md:max-w-md shadow-inner">
-                    <span class="font-bold text-amber-400 block mb-0.5"><i class="fa-solid fa-circle-info"></i> Dealer Notice (డీలర్ల గమనిక):</span>
-                    హీరో, హోండా, బజాజ్, టివిఎస్ హెల్మెట్లు & స్పేర్స్ హోల్‌సేల్/రిటైల్ ధరలలో లభించును.
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    Helmets, Accessories & Bike Spares
+                </h2>
+                <p class="text-xs text-slate-400 mt-1">Direct Wholesale Rates for Retailers & Repair Shops across Andhra Pradesh</p>
+            </div>
+            
+            <div class="bg-slate-900/90 border border-amber-500/30 p-4 rounded-2xl text-xs text-slate-300 md:max-w-md shadow-xl backdrop-blur-sm">
+                <div class="flex items-center gap-2 text-amber-400 font-bold mb-1">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>Dealer Notice (డీలర్ల గమనిక):</span>
                 </div>
+                <p class="leading-relaxed">హీరో, హోండా, బజాజ్, టివిఎస్ హెల్మెట్లు & స్పేర్స్ హోల్‌సేల్/రిటైల్ ధరలలో లభించును.</p>
             </div>
         </div>
     </section>
 
     <!-- Main Catalog View -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
-        
-        <!-- Controls Bar: Categories & Search -->
-        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            
-            <div class="flex flex-wrap gap-2 w-full md:w-auto overflow-x-auto pb-1" id="categoryTabs">
-                <button onclick="filterCategory('All', this)" class="category-btn bg-amber-500 text-slate-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow transition-all cursor-pointer whitespace-nowrap">
-                    All Items
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        <!-- Controls Bar -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div class="flex items-center gap-2 w-full md:w-auto overflow-x-auto no-scrollbar pb-1" id="categoryTabs">
+                <button onclick="filterCategory('All', this)" class="category-btn bg-amber-500 text-slate-950 text-xs font-black px-5 py-2.5 rounded-xl shadow-lg transition-all cursor-pointer whitespace-nowrap">
+                    All Categories
                 </button>
-                <button onclick="filterCategory('Helmets', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
+                <button onclick="filterCategory('Helmets', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-2.5 rounded-xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
                     Helmets
                 </button>
-                <button onclick="filterCategory('Accessories', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
+                <button onclick="filterCategory('Accessories', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-2.5 rounded-xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
                     Accessories
                 </button>
-                <button onclick="filterCategory('Spare Parts', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
+                <button onclick="filterCategory('Spare Parts', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-2.5 rounded-xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
                     Spare Parts
                 </button>
             </div>
 
-            <div class="w-full md:w-72">
+            <div class="w-full md:w-80">
                 <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
                         <i class="fa-solid fa-magnifying-glass text-xs"></i>
                     </span>
-                    <input type="text" id="searchInput" placeholder="Search catalog..." 
-                        class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-800 bg-slate-900 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-amber-500 text-xs shadow-inner">
+                    <input type="text" id="searchInput" placeholder="Search product or category..." 
+                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-800 bg-slate-900 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-amber-500 text-xs shadow-inner transition-all">
                 </div>
             </div>
         </div>
 
         <!-- Product Grid -->
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Populated Dynamically -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="col-span-full text-center py-16 text-slate-400 bg-slate-900/40 rounded-2xl border border-slate-800/60">
+                <i class="fa-solid fa-spinner fa-spin text-3xl text-amber-500 mb-3"></i>
+                <p class="text-xs font-medium">Fetching Live Catalog from GS Traders Master Sheet...</p>
+            </div>
         </div>
     </main>
 
     <!-- Slide-Over Shopping Cart Drawer -->
     <div id="cartOverlay" class="fixed inset-0 bg-slate-950/80 z-50 hidden backdrop-blur-sm transition-opacity"></div>
-    <div id="cartDrawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-slate-900 border-l border-slate-800 shadow-2xl z-50 transform translate-x-full flex flex-col">
-        <!-- Cart Header -->
-        <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+    <div id="cartDrawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-slate-900 border-l border-slate-800 shadow-2xl z-50 transform translate-x-full flex flex-col transition-transform duration-300">
+        <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
             <div class="flex items-center gap-2 text-amber-500">
-                <i class="fa-solid fa-cart-shopping text-base"></i>
-                <h3 class="text-base font-bold text-white tracking-tight">Your Dealer Cart</h3>
+                <i class="fa-solid fa-bag-shopping text-lg"></i>
+                <h3 class="text-base font-extrabold text-white">Your Wholesale Cart</h3>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="clearCart()" class="text-xs text-rose-400 hover:text-rose-300 bg-rose-950/40 border border-rose-900/50 px-2.5 py-1 rounded-lg font-bold cursor-pointer transition-all" title="Empty Cart">
+                <button onclick="clearCart()" class="text-xs text-rose-400 hover:text-rose-300 bg-rose-950/40 border border-rose-900/50 px-2.5 py-1 rounded-lg font-bold cursor-pointer transition-all">
                     <i class="fa-solid fa-trash-can mr-1"></i> Clear
                 </button>
-                <button onclick="toggleCart()" class="text-slate-400 hover:text-white text-base font-bold cursor-pointer bg-slate-800 w-7 h-7 rounded-full flex items-center justify-center">
+                <button onclick="toggleCart()" class="text-slate-400 hover:text-white text-base font-bold cursor-pointer bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center">
                     <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Cart Items List -->
-        <div id="cartItemsContainer" class="p-4 flex-grow overflow-y-auto space-y-3">
-            <!-- Populated via JS -->
-        </div>
+        <div id="cartItemsContainer" class="p-5 flex-grow overflow-y-auto space-y-4"></div>
 
-        <!-- Cart Footer & Checkout Form -->
-        <div class="p-4 border-t border-slate-800 bg-slate-950 space-y-3">
+        <div class="p-5 border-t border-slate-800 bg-slate-950 space-y-4">
             <div class="flex justify-between items-center text-sm font-bold text-slate-200">
                 <span>Estimated Total:</span>
-                <span id="cartTotalPrice" class="text-amber-400 text-base font-black">₹0.00</span>
+                <span id="cartTotalPrice" class="text-amber-400 text-lg font-black">₹0.00</span>
             </div>
 
-            <!-- Form submission handled securely via JavaScript fetch -->
-            <form id="checkoutForm" onsubmit="submitOrderBackground(event)" class="space-y-2.5">
+            <form id="checkoutForm" onsubmit="submitOrderBackground(event)" class="space-y-3">
                 <div>
-                    <input type="text" id="cartBuyerName" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Business / Shop Name *">
+                    <input type="text" id="cartBuyerName" required class="w-full px-3.5 py-2.5 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 text-slate-100" placeholder="Business / Shop Name *">
                 </div>
                 <div>
-                    <input type="tel" id="cartBuyerPhone" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="10-Digit Mobile Number *">
+                    <input type="tel" id="cartBuyerPhone" required class="w-full px-3.5 py-2.5 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 text-slate-100" placeholder="10-Digit Mobile Number *">
                 </div>
                 <div>
-                    <input type="text" id="cartBuyerAddress" class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Delivery Town / Landmark (Optional)">
+                    <input type="text" id="cartBuyerAddress" class="w-full px-3.5 py-2.5 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 text-slate-100" placeholder="Delivery Town / Landmark (Optional)">
                 </div>
 
-                <button type="submit" id="submitOrderBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-paper-plane text-sm"></i> Submit Order Now
+                <button type="submit" id="submitOrderBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-900/20 text-xs cursor-pointer flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane text-sm"></i> Submit Order & Download PDF
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Dealer Thank You Popup Modal -->
+    <!-- Product Multi-Image Viewer Modal -->
+    <div id="imageGalleryModal" class="fixed inset-0 bg-slate-950/90 z-50 hidden backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 relative shadow-2xl space-y-4">
+            <button onclick="closeGalleryModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+            <h4 id="galleryTitle" class="text-sm font-bold text-white pr-8">Product Images</h4>
+            <div class="h-64 sm:h-72 bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center border border-slate-800">
+                <img id="galleryMainImage" src="" class="max-h-full max-w-full object-contain">
+            </div>
+            <div id="galleryThumbnails" class="flex gap-2 overflow-x-auto justify-center pt-2"></div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
     <div id="thankYouModal" class="fixed inset-0 bg-slate-950/85 z-50 hidden backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-amber-500/40 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl space-y-4">
             <div class="w-16 h-16 bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto text-2xl">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
             <div>
-                <h3 class="text-lg font-black text-white">Order Submitted Successfully!</h3>
+                <h3 class="text-lg font-black text-white">Order Placed Successfully!</h3>
                 <p id="thankYouDealerName" class="text-amber-400 font-bold text-xs mt-1"></p>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-                Order sent to email successfully! You can also send the order directly to our WhatsApp numbers below:
+                Your official PDF purchase order was generated and downloaded automatically. Send a copy directly to our team via WhatsApp:
             </p>
             <div class="grid grid-cols-2 gap-2">
-                <button onclick="openWhatsApp('7659928108')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow">
+                <button onclick="openWhatsApp('7659928108')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-xl text-xs cursor-pointer flex items-center justify-center gap-1.5 shadow">
                     <i class="fa-brands fa-whatsapp text-sm"></i> Send to 76599
                 </button>
-                <button onclick="openWhatsApp('8464849742')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow">
+                <button onclick="openWhatsApp('8464849742')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-xl text-xs cursor-pointer flex items-center justify-center gap-1.5 shadow">
                     <i class="fa-brands fa-whatsapp text-sm"></i> Send to 84648
                 </button>
             </div>
-            <button onclick="closeThankYouModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl text-xs transition-all cursor-pointer border border-slate-700">
+            <button onclick="closeThankYouModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl text-xs cursor-pointer border border-slate-700">
                 Close Window
             </button>
         </div>
     </div>
 
-    <!-- Compact Footer -->
+    <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 py-8 mt-12 border-t border-slate-800 text-xs">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <div>
-                <p class="text-white font-bold">GS BIKERS CLUB, Allagadda</p>
+                <p class="text-white font-bold">GS TRADERS, Allagadda</p>
                 <p class="text-[11px] text-slate-500">Koilakuntla Road, Near Bypass, AP - 518543</p>
             </div>
             <div class="flex gap-4 text-slate-300">
@@ -208,30 +238,84 @@
 
     <!-- JavaScript Engine -->
     <script>
-        const products = [
-            { id: 101, name: "TVS Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/101.png" },
-            { id: 102, name: "Hero Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/102.png" },
-            { id: 103, name: "Honda Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/103.png" },
-            { id: 104, name: "Bajaj Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/104.png" },
-            { id: 105, name: "TWS i12 Wireless Earbuds", category: "Accessories", badge: "Special Offer", mrp: 899.00, strikePrice: 299.00, dealerPrice: 240.00, boxSize: 50, moqText: "MOQ: 50 Units", status: "available", delivery: "5-7 Days", image: "images/105.png" },
-            { id: 106, name: "Bike Body Cover", category: "Accessories", badge: "Coming Soon", mrp: 499.00, strikePrice: 0, dealerPrice: 0, boxSize: 1, moqText: "Coming Soon", status: "coming_soon", delivery: "Stay Tuned", image: "images/106.png" },
-            { id: 107, name: "Motorcycle Spark Plug", category: "Spare Parts", badge: "Out of Stock", mrp: 149.00, strikePrice: 0, dealerPrice: 99.00, boxSize: 10, moqText: "MOQ: 10 Pcs", status: "out_of_stock", delivery: "Unavailable", image: "images/107.png" },
-            { id: 108, name: "Bike Wheel Bearings Set (1 Pc)", category: "Spare Parts", badge: "Ready Stock", mrp: 129.00, strikePrice: 89.00, dealerPrice: 69.00, boxSize: 20, moqText: "MOQ: 20 Pcs", status: "available", delivery: "Instant Dispatch", image: "images/108.png" }
-        ];
+        const GOOGLE_SHEET_ID = '16txRIS_EiqoRv0Ogjo7WX8Q5oVlzGGOazQN3buEHyoM'; 
+        const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv`;
 
+        let products = [];
         let currentCategory = 'All';
         let cart = [];
         let rawOrderTextMessage = '';
 
+        // Load CSV Catalog Data from Google Sheet
+        function loadProductsFromGoogleSheet() {
+            Papa.parse(SHEET_CSV_URL, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        products = results.data
+                            .filter(p => p.id && p.name)
+                            .map(p => {
+                                const imgs = [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '');
+                                return {
+                                    id: parseInt(p.id),
+                                    name: p.name,
+                                    category: p.category,
+                                    badge: p.badge,
+                                    mrp: parseFloat(p.mrp || 0),
+                                    strikePrice: parseFloat(p.strikePrice || 0),
+                                    dealerPrice: parseFloat(p.dealerPrice || 0),
+                                    boxSize: parseInt(p.boxSize || 1),
+                                    moqText: p.moqText,
+                                    status: p.status,
+                                    delivery: p.delivery,
+                                    image: imgs.length > 0 ? imgs[0] : 'images/101.png',
+                                    images: imgs.length > 0 ? imgs : ['images/101.png']
+                                };
+                            });
+                    }
+                    renderProducts();
+                },
+                error: function() {
+                    document.getElementById('productGrid').innerHTML = '<div class="col-span-full text-center py-12 text-rose-400 text-xs">Error connecting to Google Sheets catalog.</div>';
+                }
+            });
+        }
+
         function filterCategory(category, btnElement) {
             currentCategory = category;
             document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('bg-amber-500', 'text-slate-950', 'shadow');
+                btn.classList.remove('bg-amber-500', 'text-slate-950', 'shadow-lg');
                 btn.classList.add('bg-slate-900', 'text-slate-300');
             });
             btnElement.classList.remove('bg-slate-900', 'text-slate-300');
-            btnElement.classList.add('bg-amber-500', 'text-slate-950', 'shadow');
+            btnElement.classList.add('bg-amber-500', 'text-slate-950', 'shadow-lg');
             renderProducts(document.getElementById('searchInput').value);
+        }
+
+        function openGalleryModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('galleryTitle').innerText = product.name;
+            const mainImg = document.getElementById('galleryMainImage');
+            mainImg.src = product.images[0];
+
+            const thumbsContainer = document.getElementById('galleryThumbnails');
+            thumbsContainer.innerHTML = '';
+
+            product.images.forEach((img, idx) => {
+                thumbsContainer.innerHTML += `
+                    <img src="${img}" onclick="document.getElementById('galleryMainImage').src='${img}'" 
+                         class="w-12 h-12 object-cover rounded-lg border-2 border-slate-700 hover:border-amber-500 cursor-pointer transition-all">
+                `;
+            });
+
+            document.getElementById('imageGalleryModal').classList.remove('hidden');
+        }
+
+        function closeGalleryModal() {
+            document.getElementById('imageGalleryModal').classList.add('hidden');
         }
 
         function renderProducts(searchQuery = '') {
@@ -245,48 +329,51 @@
             });
 
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500 text-xs bg-slate-900/50 rounded-xl border border-slate-800">No matching items found.</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-slate-900/40 rounded-2xl border border-slate-800">No matching items found.</div>';
                 return;
             }
 
             filtered.forEach((p) => {
                 let actionBtn = '';
                 if (p.status === 'coming_soon') {
-                    actionBtn = `<div class="w-full bg-slate-800 text-slate-400 font-bold py-2.5 rounded-lg text-center text-[11px] uppercase tracking-wider">Coming Soon</div>`;
+                    actionBtn = `<div class="w-full bg-slate-800/80 text-slate-400 font-bold py-3 rounded-xl text-center text-[11px] uppercase tracking-wider">Coming Soon</div>`;
                 } else if (p.status === 'out_of_stock') {
-                    actionBtn = `<div class="w-full bg-rose-950/40 text-rose-400 border border-rose-900/50 font-bold py-2.5 rounded-lg text-center text-[11px] uppercase tracking-wider">Out of Stock</div>`;
+                    actionBtn = `<div class="w-full bg-rose-950/40 text-rose-400 border border-rose-900/50 font-bold py-3 rounded-xl text-center text-[11px] uppercase tracking-wider">Out of Stock</div>`;
                 } else {
-                    actionBtn = `<button onclick="addToCart(${p.id})" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-2.5 rounded-lg text-center transition-all shadow text-[11px] tracking-wider uppercase cursor-pointer flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-cart-plus"></i> Add to Cart (${p.moqText})
+                    actionBtn = `<button onclick="addToCart(${p.id})" class="w-full bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black py-3 rounded-xl text-center transition-all shadow-md text-[11px] tracking-wider uppercase cursor-pointer flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cart-plus text-xs"></i> Add to Cart (${p.moqText})
                     </button>`;
                 }
 
                 grid.innerHTML += `
-                    <div class="pro-card bg-slate-900 rounded-xl shadow overflow-hidden border border-slate-800 flex flex-col justify-between">
+                    <div class="pro-card bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-800 flex flex-col justify-between">
                         <div>
-                            <div class="relative h-44 overflow-hidden bg-slate-950">
-                                <a href="${p.image}" target="_blank">
-                                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                                </a>
-                                <span class="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur text-amber-400 border border-amber-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+                            <div class="relative h-48 overflow-hidden bg-slate-950 group">
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-amber-400 border border-amber-500/30 text-[10px] font-extrabold px-3 py-1 rounded-full">
                                     ${p.badge}
                                 </span>
+                                ${p.images.length > 1 ? `
+                                <button onclick="openGalleryModal(${p.id})" class="absolute bottom-3 right-3 bg-slate-950/80 hover:bg-slate-900 text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded-lg border border-slate-700 flex items-center gap-1">
+                                    <i class="fa-solid fa-images text-amber-400"></i> ${p.images.length} Photos
+                                </button>` : ''}
                             </div>
-                            <div class="p-4">
-                                <span class="text-[10px] text-amber-500 font-bold uppercase tracking-wider">${p.category}</span>
-                                <h4 class="text-sm font-extrabold text-white mt-1 mb-2 leading-snug">${p.name}</h4>
+                            <div class="p-5">
+                                <span class="text-[10px] text-amber-500 font-extrabold uppercase tracking-wider">${p.category}</span>
+                                <h4 class="text-sm font-extrabold text-white mt-1 mb-3 leading-snug">${p.name}</h4>
                                 ${p.status === 'available' ? `
-                                <div class="flex items-baseline gap-2 mb-3 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800">
-                                    <span class="text-xl font-black text-amber-400">₹${p.dealerPrice.toFixed(2)}</span>${p.strikePrice > 0 ? `<span class="text-[11px] text-slate-400 line-through">₹${p.strikePrice.toFixed(2)}</span>` : ''}
+                                <div class="flex items-baseline gap-2 mb-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                                    <span class="text-xl font-black text-amber-400">₹${p.dealerPrice.toFixed(2)}</span>
+                                    ${p.strikePrice > 0 ? `<span class="text-[11px] text-slate-500 line-through">₹${p.strikePrice.toFixed(2)}</span>` : ''}
                                     <span class="text-[10px] text-slate-500 line-through ml-auto">MRP: ₹${p.mrp.toFixed(2)}</span>
                                 </div>` : ''}
-                                <div class="text-[11px] text-slate-400 bg-slate-950 p-2 rounded-lg border border-slate-800 mb-1 flex justify-between items-center">
+                                <div class="text-[11px] text-slate-400 bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/60 mb-1 flex justify-between items-center">
                                     <span><i class="fa-solid fa-box text-amber-500 mr-1"></i> ${p.moqText}</span>
-                                    <span class="text-slate-400"><i class="fa-solid fa-truck text-amber-500 mr-0.5"></i> ${p.delivery}</span>
+                                    <span><i class="fa-solid fa-truck-fast text-amber-500 mr-1"></i> ${p.delivery}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="px-4 pb-4 pt-0">
+                        <div class="px-5 pb-5 pt-0">
                             ${actionBtn}
                         </div>
                     </div>
@@ -352,7 +439,7 @@
             let totalPrice = 0;
 
             if (cart.length === 0) {
-                container.innerHTML = '<div class="text-center py-12 text-slate-500 text-xs">Your cart is empty. Add products to build an order.</div>';
+                container.innerHTML = '<div class="text-center py-16 text-slate-500 text-xs">Your cart is empty. Add products to build an order.</div>';
                 badge.classList.add('hidden');
                 totalPriceEl.innerText = '₹0.00';
                 return;
@@ -367,17 +454,17 @@
                 totalPrice += itemSubtotal;
 
                 container.innerHTML += `
-                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between gap-3 text-xs">
-                        <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg bg-slate-900">
+                    <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 flex items-center justify-between gap-3 text-xs">
+                        <img src="${item.image}" class="w-12 h-12 object-cover rounded-xl bg-slate-900">
                         <div class="flex-grow">
                             <h5 class="font-bold text-white leading-tight">${item.name}</h5>
                             <p class="text-amber-400 font-extrabold mt-0.5">${item.boxes} Box(es) <span class="text-slate-400 font-normal">(${totalUnits} Pcs)</span></p>
                             <p class="text-[10px] text-slate-400">Subtotal: ₹${itemSubtotal.toFixed(2)}</p>
                         </div>
-                        <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg p-1">
-                            <button onclick="changeBoxes(${item.id}, -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer">-</button>
+                        <div class="flex items-center gap-1 bg-slate-900 border border-slate-800 rounded-xl p-1">
+                            <button onclick="changeBoxes(${item.id}, -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold flex items-center justify-center cursor-pointer">-</button>
                             <span class="w-6 text-center font-bold text-white">${item.boxes}</span>
-                            <button onclick="changeBoxes(${item.id}, 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer">+</button>
+                            <button onclick="changeBoxes(${item.id}, 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold flex items-center justify-center cursor-pointer">+</button>
                         </div>
                     </div>
                 `;
@@ -385,6 +472,78 @@
 
             badge.innerText = totalUniqueItems;
             totalPriceEl.innerText = '₹' + totalPrice.toFixed(2);
+        }
+
+        // Generate Invoice PDF
+        function generateOrderPDF(name, phone, address, cartItems, grandTotal) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFillColor(15, 23, 42);
+            doc.rect(0, 0, 210, 40, 'F');
+            
+            doc.setTextColor(245, 158, 11);
+            doc.setFontSize(20);
+            doc.setFont("helvetica", "bold");
+            doc.text("GS TRADERS", 14, 18);
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("Wholesale Helmets & Spares - Allagadda", 14, 26);
+            doc.text("Phone: 76599 28108 / 84648 49742", 14, 33);
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFontSize(14);
+            doc.setFont("helvetica", "bold");
+            doc.text("B2B PURCHASE ORDER", 14, 52);
+
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, 150, 52);
+
+            doc.setDrawColor(226, 232, 240);
+            doc.rect(14, 58, 182, 28);
+            
+            doc.setFont("helvetica", "bold");
+            doc.text("Dealer / Shop Details:", 18, 66);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Shop Name: ${name}`, 18, 73);
+            doc.text(`Phone Number: ${phone}`, 18, 80);
+            doc.text(`Delivery Location: ${address || 'Allagadda'}`, 110, 73);
+
+            const tableData = cartItems.map((item, index) => {
+                let totalUnits = item.boxes * item.boxSize;
+                let itemTotal = item.dealerPrice * totalUnits;
+                return [
+                    index + 1,
+                    item.name,
+                    `${item.boxes} Box(es) (${totalUnits} Pcs)`,
+                    `₹${item.dealerPrice.toFixed(2)}`,
+                    `₹${itemTotal.toFixed(2)}`
+                ];
+            });
+
+            doc.autoTable({
+                startY: 92,
+                head: [['#', 'Item Description', 'Quantity', 'Unit Rate', 'Subtotal']],
+                body: tableData,
+                theme: 'striped',
+                headStyles: { fillStyle: 'F', fillColor: [245, 158, 11], textColor: [15, 23, 42], fontStyle: 'bold' },
+                styles: { fontSize: 9 }
+            });
+
+            const finalY = doc.lastAutoTable.finalY + 12;
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text(`Grand Total Estimated: Rs. ${grandTotal.toFixed(2)}`, 115, finalY);
+
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "italic");
+            doc.setTextColor(100, 116, 139);
+            doc.text("Thank you for your business! GS Traders Allagadda.", 14, finalY + 15);
+
+            doc.save(`GS_Traders_Order_${name.replace(/\s+/g, '_')}.pdf`);
         }
 
         async function submitOrderBackground(e) {
@@ -409,14 +568,15 @@
             orderTextSummary += `Grand Total Estimated: ₹${grandTotal.toFixed(2)}\n`;
             orderTextSummary += `Location: ${address || 'Allagadda'}`;
 
-            rawOrderTextMessage = `*NEW B2B ORDER - GS BIKERS CLUB*\n\n${orderTextSummary}\n\n*DEALER DETAILS:*\n• Business: ${name}\n• Phone: ${phone}`;
+            rawOrderTextMessage = `*NEW B2B ORDER - GS TRADERS*\n\n${orderTextSummary}\n\n*DEALER DETAILS:*\n• Business: ${name}\n• Phone: ${phone}`;
 
             const btn = document.getElementById('submitOrderBtn');
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
             btn.disabled = true;
 
+            generateOrderPDF(name, phone, address, cart, grandTotal);
+
             try {
-                // Connected using your verified FormSubmit secure endpoint token
                 const response = await fetch("https://formsubmit.co/ajax/el/saceva", {
                     method: "POST",
                     headers: { 
@@ -424,7 +584,7 @@
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        _subject: "New B2B Order - GS Bikers Club!",
+                        _subject: "New B2B Order - GS Traders!",
                         Shop_Name: name,
                         Phone_Number: phone,
                         Delivery_Location: address || 'Allagadda',
@@ -444,7 +604,7 @@
             } catch (err) {
                 alert("Network error. Please check your internet connection.");
             } finally {
-                btn.innerHTML = `<i class="fa-solid fa-paper-plane text-sm"></i> Submit Order Now`;
+                btn.innerHTML = `<i class="fa-solid fa-paper-plane text-sm"></i> Submit Order & Download PDF`;
                 btn.disabled = false;
             }
         }
@@ -462,7 +622,7 @@
             renderProducts(e.target.value);
         });
 
-        renderProducts();
+        loadProductsFromGoogleSheet();
     </script>
 </body>
 </html>
